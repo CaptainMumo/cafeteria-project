@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'menuapp.apps.MenuappConfig',
 ]
 
-ASGI_APPLICATION = 'myproject.asgi.application'
+ASGI_APPLICATION = 'cafeteriamainproject.asgi.application'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -59,7 +59,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'myproject.urls'
+ROOT_URLCONF = 'cafeteriamainproject.urls'
 
 TEMPLATES = [
     {
@@ -77,7 +77,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'myproject.wsgi.application'
+WSGI_APPLICATION = 'cafeteriamainproject.wsgi.application'
 
 
 # Database
