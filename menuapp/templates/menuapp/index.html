@@ -1,0 +1,246 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if title %} {{ title }} {% endif %}</title> <!--Change to variable-->  
+    <!--Bootstrap CSS-->  
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" 
+        rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" 
+        crossorigin="anonymous">
+        <style>	
+          .carousel-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 1rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+          }
+
+          .default {
+            height: 100vh;
+            object-fit: cover;
+          }
+
+          .display-text-heading {
+            font-size: 2.5vw;
+          }
+
+          .display-text {
+            font-size: 2.0vw;
+          }
+
+          .display-dotted {
+            border-bottom: 0.2vw dotted white;
+          }
+
+          @media (max-width: 992px) {
+            .display-text-heading {
+              font-size: 3.0vw;
+            }
+
+            .display-text {
+              font-size: 2.5vw;
+	 
+            }
+          }
+
+          /* Make carousel fullscreen for large screens */
+          @media (min-width: 500px) {
+            .carousel {
+              height: 100vh;
+            }
+
+            .carousel-item img {
+              height: 100vh;
+              object-fit: cover;
+            }
+
+            .carousel-indicators {
+              display: none;
+            }
+
+            .carousel-control-prev, .carousel-control-next {
+              display: none;
+            }
+
+	    .display-text-heading, .display-text {
+	    	font-size: 3.5vw;
+	    }
+
+          }
+
+        </style>
+</head>
+<body>
+    <section id="main_menu_carousel" class="container-fluid p-0">
+      {% if menuitems %}
+        <div id="carouselMenuDisplay" class="carousel slide" data-bs-ride="carousel" data-bs-pause="false" data-bs-interval="10000">  
+		<div class="carousel-indicators">
+		{% for key, value in menuitems.items %}
+		<button type="button" data-bs-target="#carouselMenuDisplay" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %} class="active" aria-current="true"{% endif %} aria-label="Slide {{ forloop.counter0 }}"></button>
+		{% endfor %}
+		</div>
+	<!--
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselMenuDisplay" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselMenuDisplay" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselMenuDisplay" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselMenuDisplay" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            <button type="button" data-bs-target="#carouselMenuDisplay" data-bs-slide-to="4" aria-label="Slide 5"></button>
+          </div>
+	-->
+          
+          <div class="carousel-inner border border-5 border-warning">
+          {% for key, value in menuitems.items %}
+	  <div class="carousel-item {% if forloop.first %} active{% endif %}"{% if "SPECIAL" in key.name %} data-bs-interval="15000" {% endif %}>
+		
+	
+		  <img src="{% if key.image %}{{ key.image.url }}{% else %}{% static 'menuapp/cafeteria_4.jpeg' %}{% endif %}" 
+                    id="carousel-image" class="d-block w-100" alt="..." style="opacity:1.0;">
+              <div class="carousel-caption d-none d-sm-flex align-items-center"> <!-- Remove d-none -->
+		      <p class="h1 display-text-heading text-uppercase fw-bolder text-warning mb-4">~ {{ key }} ~</p>
+                
+                <div class="container text-center">
+			{% if "SPECIAL" in key.name %}
+                  <div class="row">
+                    <div class="col">
+                      <img src="{% if key.image %}{{ key.image.url }}{% else %}{% static 'menuapp/cafeteria_4.jpeg' %}{% endif %}" 
+                        class="d-block w-100" alt="..." style="opacity:1.0;">
+                    </div>
+                    <div class="col">  
+
+			    <p class="fst-italic mb-4" style="font-size: 2.5vw;">Enjoy today's international cuisine special carefully crafted by our chefs to give you a truly global experience!</p>                    
+                      {% for item in value %}
+                      <div class="row mb-4" style="background: linear-gradient(to right, #0a58ca, #2268cf, #3b79d4, #538ad9, #6c9adf);">
+                        <div class="col-auto col-sm-auto col-md-auto">
+                          <p class="h3 text-uppercase display-text fst-italic">{{ item.name }}</p>
+                        </div>
+			<div class="col">
+                          
+                        </div>
+                        <div class="col-auto col-sm-auto col-md-auto">
+                          <p class="h3 text-uppercase display-text fst-italic">{{ item.price }}</p>
+                        </div>
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                {% else %}
+                {% for item in value %}
+		<div class="row mb-2" style="background: {% if forloop.counter|divisibleby:2 %}linear-gradient(to right, #0a58ca, #2268cf, #3b79d4, #538ad9, #6c9adf);{% endif %}">
+                    <div class="col col-sm-auto col-md-auto">
+                      <p class="h3 fst-italic text-uppercase fw-bolder display-text">{{ item.name }}</p>
+                    </div>
+		    <div class="col {% if forloop.counter|divisibleby:2 %}{% else %}display-dotted{% endif %}">
+                      
+                    </div>
+                    <div class="col col-sm-auto col-md-auto">
+                      <p class="h3 fst-italic text-uppercase fw-bolder display-text">{{ item.price }}</p>
+                    </div>
+                  </div>
+                {% endfor %}
+                {% endif %}
+		  
+              </div>
+              </div>
+            </div>
+          {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselMenuDisplay" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselMenuDisplay" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      {% else %}
+      <div>
+        <img src="{% static 'menuapp/cafeteria_4.jpeg' %}" alt="Strathmore Cafeteria" class="default img-fluid">
+      </div>        
+      {% endif %}
+    </section>
+    
+    <!--Bootstrap JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" 
+    crossorigin="anonymous"></script>
+
+    <script>
+	    $(document).ready(function(){
+		$('#carouselMenuDisplay').carousel({
+			    pause: false
+			    });
+			});
+	</script>
+    <!--Reload page at menu end time-->
+    <script type="text/javascript">
+      // Reload page every 30 minutes
+      setInterval(function(){
+  	location.reload();
+      }, 30 * 60 * 1000); // 30 minutes * 60 seconds * 1000 milliseconds
+
+      // Convert string to time object
+      function parseTimeString(timeString) {
+        var now = new Date();
+        const [hours, minutes, seconds] = timeString.split(':');
+        console.log(hours, minutes, seconds)
+        return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, seconds);
+      }
+    
+      // Calculate the time until the reload
+      function getTimeUntilReload() {
+        var now = new Date();
+        var endtime = "{{ current_menu_end_time }}";
+        console.log(endtime);
+        var reloadTime = parseTimeString(endtime);
+        console.log(reloadTime);
+        var timeUntilReload = reloadTime.getTime() - now.getTime();
+        return timeUntilReload;
+      }
+    
+      // Reload the page
+      function reloadPage() {
+        location.reload();
+      }
+    
+      // Set a timeout to reload the page at the specified time, if timeUntilReload is positive
+      var timeUntilReload = getTimeUntilReload();
+      console.log(timeUntilReload);
+      if (timeUntilReload > 0) {
+        setTimeout(reloadPage, timeUntilReload);
+      }
+      else {
+        setTimeout(reloadPage, 600000);
+        console.log("No menu to display");
+      }
+    </script>
+    <script>
+      // Connect to WebSocket & listen for menu change
+      const wsScheme = window.location.protocol === "https:" ? "wss://" : "ws://";
+      const wsPath = wsScheme + window.location.host + ":8000/ws/my_consumer/";
+      const socket = new WebSocket(wsPath);
+  
+      socket.onmessage = function(event) {
+          const message = JSON.parse(event.data).message;
+          if (message === "reload") {
+            location.reload();
+          }
+          console.log(message);
+      };
+  </script>
+</body>
+</html>
+
+
+
