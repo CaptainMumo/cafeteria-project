@@ -1,5 +1,7 @@
 from django.db import models
 from datetime import date, datetime
+from django.utils import timezone
+
 
 class FoodCategory(models.Model):
     """
@@ -64,7 +66,7 @@ class DayMenu(models.Model):
     # Request for breakfast menu
     # Ask if there's only breakfast and lunch menus. What's the name of the evening menu
     name = models.CharField(max_length=50, default="Monday")
-    day = models.DateField(default=date.today())
+    day = models.DateField(default=timezone.now)
     sub_menus = models.ManyToManyField(TimeMenu)
 
     def __str__(self):
