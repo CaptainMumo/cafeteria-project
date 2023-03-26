@@ -2,7 +2,6 @@ from django.db import models
 from datetime import date, datetime
 from django.utils import timezone
 
-
 class FoodCategory(models.Model):
     """
     Food category: Protein, Starch, Dessert, Mixed dish, Special dish, Combo
@@ -13,7 +12,6 @@ class FoodCategory(models.Model):
     name = models.CharField(max_length=50)
     # Optional image field
     image = models.ImageField(upload_to='food_category_images/', null=True, blank=True)
-
 
     def __str__(self) -> str:
         return f"{self.name}"
