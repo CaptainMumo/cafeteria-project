@@ -40,7 +40,7 @@ class MenuItem(models.Model):
     image = models.ImageField(upload_to='menu_item_images/', null=True, blank=True)
 
     def __str__(self):
-        return f"{self.name} @ {self.price}"
+        return f"{self.name} ({self.food_category}) @ {self.price}"
 
 class TimeMenu(models.Model):
     """
