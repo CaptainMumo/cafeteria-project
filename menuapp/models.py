@@ -11,7 +11,24 @@ class FoodCategory(models.Model):
     """
     name = models.CharField(max_length=50)
     # Optional image field
-    image = models.ImageField(upload_to='food_category_images/', null=True, blank=True)
+    image = models.ImageField(upload_to='food_category_images/', 
+                              null=True, 
+                              blank=True,
+                              verbose_name="Optional Image (Representative of the category)",
+                              help_text="This image will act as the background for the carousel for this category")
+    # Optional flag video field
+    special_flag_video = models.FileField(upload_to='food_category_videos/', 
+                                          null=True, 
+                                          blank=True,
+                                          verbose_name="Optional Special Flag Video (Only for Specials)",
+                                          help_text="This video will act as the background for the carousel for this special")
+    # Optional flag image field
+    special_flag_image = models.ImageField(upload_to='food_category_images/', 
+                                           null=True, 
+                                           blank=True,
+                                           verbose_name="Optional Special Flag Image (Only for Specials)",
+                                           help_text="This image will act as the background for the carousel for this special in the absence of the video")
+    
 
     def __str__(self) -> str:
         return f"{self.name}"
