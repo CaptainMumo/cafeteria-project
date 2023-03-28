@@ -131,3 +131,6 @@ dmypy.json
 
 # Media folder
 media/
+
+# Migrations folder
+media/migrations/
