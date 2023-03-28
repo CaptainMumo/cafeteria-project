@@ -28,7 +28,7 @@ def index(request):
             else:
                 menu_items = menu_items.union(current_menu.menu_items.all(), all=False)
             if current_menu_end_time is not None:
-                if current_menu.end_time < current_menu.end_time:
+                if current_menu.end_time < current_menu_end_time:
                     current_menu_end_time = current_menu.end_time
             else:
                 current_menu_end_time = current_menu.end_time

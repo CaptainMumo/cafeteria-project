@@ -147,7 +147,7 @@
               </div>
               {% else %}
               {% for item in value %}
-              <div class="row mb-2"
+              <div class="row mb-4"
                 style="background: {% if forloop.counter|divisibleby:2 %}linear-gradient(to right, #0a58ca, #2268cf, #3b79d4, #538ad9, #6c9adf);{% endif %}">
                 <div class="col col-sm-auto col-md-auto">
                   <p class="h3 fst-italic text-uppercase fw-bolder display-text">{{ item.name }}</p>
