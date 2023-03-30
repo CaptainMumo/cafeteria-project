@@ -50,7 +50,7 @@ def index(request):
     if menu_items is not None:
         for item in menu_items:
             if item.food_category in items_by_category:
-                if len(items_by_category[item.food_category]) < 8: 
+                if len(items_by_category[item.food_category]) < 9: 
                     items_by_category[item.food_category].append(item)
                 else:
                     key = item.food_category.name
