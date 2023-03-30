@@ -58,7 +58,6 @@ def index(request):
                         items_by_category[key].append(item)
                     else:
                         items_by_category[key] = [item]
-                
             else:
                 items_by_category[item.food_category] = [item]
     
