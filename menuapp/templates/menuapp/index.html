@@ -59,7 +59,7 @@
                     carefully crafted by our chefs to give you a truly global experience!</p>
                   {% for item in value %}
                   <div class="row mb-4"
-                    style="background: linear-gradient(to right, #345995,#345995,#345995,#5D7AAA);">
+                    style="background: linear-gradient(to right, #0000CC,#0000CC,#2f2fff, #4343ff, #4343ff);">
                     <div class="col-auto col-sm-auto col-md-auto">
                       <p class="h3 text-uppercase display-text fst-italic">{{ item.name }}</p>
                     </div>
@@ -76,7 +76,7 @@
               {% else %}
               {% for item in value %}
               <div class="row mb-4"
-                style="background: {% if forloop.counter|divisibleby:2 %}linear-gradient(to right, #345995,#345995,#345995,#5D7AAA);{% endif %}">
+                style="background: {% if forloop.counter|divisibleby:2 %}linear-gradient(to right, #0000CC,#0000CC,#2f2fff, #4343ff, #4343ff);{% endif %}">
                 <div class="col col-sm-auto col-md-auto">
                   <p class="h3 fst-italic text-uppercase fw-bolder display-text">{{ item.name }}</p>
                 </div>
