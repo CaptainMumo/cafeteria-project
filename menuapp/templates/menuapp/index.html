@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% if title %} {{ title }} {% endif %}</title> <!--Change to variable-->
-  
+
   <!--Bootstrap CSS-->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
@@ -22,10 +22,8 @@
       data-bs-interval="10000">
       <div class="carousel-indicators">
         {% for key, value in menuitems.items %}
-          <button type="button" data-bs-target="#carouselMenuDisplay" data-bs-slide-to="{{ forloop.counter0 }}" 
-          {% if forloop.first %} 
-            class="active" aria-current="true" 
-          {% endif %}
+        <button type="button" data-bs-target="#carouselMenuDisplay" data-bs-slide-to="{{ forloop.counter0 }}" 
+        {% if forloop.first %} class="active" aria-current="true" {% endif %}
           aria-label="Slide {{ forloop.counter0 }}"></button>
         {% endfor %}
       </div>
@@ -39,13 +37,14 @@
             <source src="{{ key.special_flag_video.url }}" type="video/mp4">
           </video>
           {% else %}
-          <img src="{% if key.special_flag_image %}{{ key.special_flag_image.url }}{% elif key.image %}{{ key.image.url }}{% else %}{% static 'menuapp/images/cafeteria_4.jpeg' %}{% endif %}"
+          <img
+            src="{% if key.special_flag_image %}{{ key.special_flag_image.url }}{% elif key.image %}{{ key.image.url }}{% else %}{% static 'menuapp/images/cafeteria_4.jpeg' %}{% endif %}"
             id="carousel-image" class="d-block w-100" alt="..." style="opacity:1.0;">
           {% endif %}
           <div class="carousel-caption d-none d-sm-flex align-items-center"> <!-- Remove d-none -->
             <p class="h1 display-text-heading text-uppercase text-warning fw-bolder mb-4">~ {{ key }} ~</p>
 
-            <div class="container text-center">
+            <div class="container-fluid text-center">
               {% if "SPECIAL" in key.name %}
               <div class="row">
                 <div class="col">
