@@ -27,7 +27,7 @@ class FoodCategory(models.Model):
                                            blank=True,
                                            verbose_name="Optional Special Flag Image (Only for Specials)",
                                            help_text="This image will act as the background for the carousel for this special in the absence of the video")
-    
+    description = models.TextField(null=True, blank=True)    
 
     def __str__(self) -> str:
         return f"{self.name}"

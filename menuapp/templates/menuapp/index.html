@@ -54,19 +54,19 @@
                 </div>
                 <div class="col">
 
-                  <p class="fst-italic mb-4" style="font-size: 2.5vw;">Enjoy today's international cuisine special
-                    carefully crafted by our chefs to give you a truly global experience!</p>
+                  <p class="fst-italic mb-4" style="font-size: 2.5vw;">{% if key.description %}{{ key.description }}{% else %}Enjoy today's international cuisine special
+                    carefully crafted by our chefs to give you a truly global experience!{% endif %}</p>
                   {% for item in value %}
-                  <div class="row mb-4"
+                  <div class="row row-cols-1 my-5"
                     style="background: linear-gradient(to right, #c45151,#ca3d3d,#dc1313,#0a58ca, #527ebf, #7a94ba);">
-                    <div class="col-auto col-sm-auto col-md-auto">
+                    <div class="col-auto col-sm-auto col-md-auto text-center">
                       <p class="h3 text-uppercase display-text fst-italic">{{ item.name }}</p>
                     </div>
-                    <div class="col">
+                    <!--<div class="col">
 
-                    </div>
-                    <div class="col-auto col-sm-auto col-md-auto">
-                      <p class="h3 text-uppercase display-text fst-italic">{{ item.price }}</p>
+                    </div>-->
+                    <div class="col-auto col-sm-auto col-md-auto text-center">
+                      <p class="h3 text-uppercase display-text fst-italic">KES {{ item.price }}</p>
                     </div>
                   </div>
                   {% endfor %}
