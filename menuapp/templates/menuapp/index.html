@@ -30,10 +30,14 @@
 
       <div class="carousel-inner border border-5 border-warning">
         {% for key, value in menuitems.items %}
-        <div class="carousel-item {% if forloop.first %} active{% endif %}" {% if "SPECIAL" in key.name %}
-          data-bs-interval="15000" {% endif %}>
-          {% if key.special_flag_video %}
+        <div class="carousel-item {% if forloop.first %} active{% endif %}" {% if "SPECIAL" in key.name and "CAKE" not in key.name %}
+          data-bs-interval="15000" {% elif "CAKE" in key.name %} id="cakeslide" data-bs-interval="33000" {% endif %}>
+          {% if key.special_flag_video and "CAKE" not in key.name %}
           <video autoplay muted loop>
+            <source src="{{ key.special_flag_video.url }}" type="video/mp4">
+          </video>
+          {% elif key.special_flag_video and "CAKE" in key.name %}
+          <video loop id="cakevideo">
             <source src="{{ key.special_flag_video.url }}" type="video/mp4">
           </video>
           {% else %}
@@ -45,17 +49,19 @@
             <p class="h1 display-text-heading text-uppercase text-warning fw-bolder mb-4">~ {{ key }} ~</p>
 
             <div class="container-fluid text-center p-5 pt-0">
-              {% if "SPECIAL" in key.name %}
+              {% if "SPECIAL" in key.name and "CAKE" not in key.name %}
               <div class="row">
                 <div class="col">
+                  
                   <img
-                    src="{% if key.image %}{{ key.image.url }}{% else %}{% static 'menuapp/images/strathmore_cafeteria_default_image.jpg' %}{% endif %}"
+                    src="{% if key.image %}{{ key.image.url }}{% endif %}"
                     class="d-block w-100" alt="..." style="opacity:1.0;">
+                  
+                  
                 </div>
                 <div class="col text-center">
 
-                  <p class="fst-italic mb-4" style="font-size: 2.5vw;">{% if key.description %}{{ key.description }}{% else %}Enjoy today's international cuisine special
-                    carefully crafted by our chefs to give you a truly global experience!{% endif %}</p>
+                  <p class="fst-italic mb-4" style="font-size: 2.5vw;">{% if key.description %}{{ key.description }}{% endif %}</p>
                   {% for item in value %}
                   <div class="row my-4"
                     style="background: linear-gradient(to right, #c45151,#ca3d3d,#dc1313,#0a58ca, #527ebf, #7a94ba);">
@@ -69,7 +75,7 @@
                   {% endfor %}
                 </div>
               </div>
-              {% else %}
+              {% elif "CAKE" not in key.name %}
               {% for item in value %}
               <div class="row mb-4"
                 style="background: {% if forloop.counter|divisibleby:2 %}linear-gradient(to right, #c45151,#ca3d3d,#dc1313,#0a58ca, #527ebf, #7a94ba);{% endif %}">
@@ -102,7 +108,8 @@
     </div>
     {% else %}
     <div>
-      <img src="{% static 'menuapp/images/strathmore_cafeteria_default_image.jpg' %}" alt="Strathmore Cafeteria" class="default img-fluid">
+      <img src="{% static 'menuapp/images/strathmore_cafeteria_default_image.jpg' %}" alt="Strathmore Cafeteria" 
+      class="default img-fluid w-100">
     </div>
     {% endif %}
   </section>
@@ -113,6 +120,18 @@
     crossorigin="anonymous"></script>
 
   <script>
+    // Only play cake video when it comes up
+    document.getElementById('carouselMenuDisplay').addEventListener('slid.bs.carousel', function () {
+            var activeSlide = document.querySelector('.carousel-item.active');
+            var slideId = activeSlide.id;
+            // Check if the active slide has a specific ID where you want the video to play
+            if (slideId === 'cakeslide') {
+                document.getElementById('cakevideo').play();
+            } else {
+                document.getElementById('cakevideo').pause();
+            }
+        });
+
     $(document).ready(function () {
       $('#carouselMenuDisplay').carousel({
         pause: false
