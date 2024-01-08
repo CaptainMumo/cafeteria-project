@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.shortcuts import render
 from .models import DayMenu, TimeMenu, MenuItem, FoodCategory
 
+MAX_ITEMS_PER_CAROUSEL = 8
 
 def index(request):
     """ Get the days menu """
@@ -47,34 +48,28 @@ def index(request):
 
     # Group them by their categories in a dictionary of lists
     items_by_category = {}
+    splits = 0
     if menu_items is not None:
         for item in menu_items:
             if item.food_category in items_by_category:
-                if len(items_by_category[item.food_category]) < 8: 
+                if len(items_by_category[item.food_category]) < MAX_ITEMS_PER_CAROUSEL: 
                     items_by_category[item.food_category].append(item)
                 else:
-                    key = item.food_category.name
+                    key = CarouselKey(item.food_category.name, item.food_category.image.url, splits)
                     if key in items_by_category:
-                        items_by_category[key].append(item)
+                        if len(items_by_category[key]) < MAX_ITEMS_PER_CAROUSEL:
+                            items_by_category[key].append(item)
+                        else:
+                            splits += 1
+                            key = CarouselKey(item.food_category.name, item.food_category.image.url, splits)
+                            items_by_category[key] = [item]
                     else:
                         items_by_category[key] = [item]
             else:
                 items_by_category[item.food_category] = [item]
-    
 
     
-    """
-    split_cats = {}
-    for key in items_by_category:
-        c = 0
-        if len(items_by_category[key]) > 10:
-            newkey = key.name
-            split_cats[newkey] = items_by_category[key][10:]
-            items_by_category[key] = items_by_category[key][:10]
-            c = c + 1
-
-    items_by_category.update(split_cats)
-    """ 
+        
     # Add the menu and submenus to the context
     context = {
         'title': "Cafeteria Menu App"
@@ -93,3 +88,23 @@ def index(request):
                 template_name="menuapp/index.html", 
                 context=context)
 
+
+class CarouselKey:
+    """ A helper class for creating carousel key when the menu items are grouped by category """
+    def __init__(self, name, image, split):
+        self.name = name
+        self.image = image
+        self.split = split
+
+    def __str__(self):
+        return self.name
+    
+    def __hash__(self):
+        # XOR (^) can be used to combine the hash values of the attributes
+        return hash(self.name) ^ hash(self.image) ^ hash(self.split)
+    
+    def __eq__(self, __value: object) -> bool:
+        return isinstance(__value, CarouselKey) and \
+               self.name == __value.name and \
+               self.image == __value.image and \
+               self.split == __value.split

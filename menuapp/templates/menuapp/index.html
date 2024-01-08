@@ -42,7 +42,7 @@
           </video>
           {% else %}
           <img
-            src="{% if key.special_flag_image %}{{ key.special_flag_image.url }}{% elif key.image %}{{ key.image.url }}{% else %}{% static 'menuapp/images/strathmore_cafeteria_default_image.png' %}{% endif %}"
+            src="{% if key.special_flag_image %}{{ key.special_flag_image.url }}{% elif key.image.url %}{{ key.image.url }}{% else %}{{ key.image }}{% endif %}"
             id="carousel-image" class="d-block w-100" alt="..." style="opacity:1.0;">
           {% endif %}
           <div class="carousel-caption d-none d-sm-flex align-items-center"> <!-- Remove d-none -->
@@ -75,7 +75,7 @@
                   {% endfor %}
                 </div>
               </div>
-              {% elif "CAKE" not in key.name %}
+              {% else %}
               {% for item in value %}
               <div class="row mb-4"
                 style="background: {% if forloop.counter|divisibleby:2 %}linear-gradient(to right, #c45151,#ca3d3d,#dc1313,#0a58ca, #527ebf, #7a94ba);{% endif %}">
