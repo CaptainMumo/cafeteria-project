@@ -25,51 +25,54 @@
 
 <body>
     <div class="container text-center">
-        <img src="{% static 'menuapp/images/strathmore_university_cafeteria_logo.png' %}" alt="Strathmore University Cafeteria Services Logo"
-            class="img-fluid">
+        <img src="{% static 'menuapp/images/strathmore_university_cafeteria_logo.png' %}"
+            alt="Strathmore University Cafeteria Services Logo" class="img-fluid">
     </div>
-    {% if menuitems %}
+    <div class="container">
+        <div class="row">
+            {% if menuitems %}
 
-    {% for key, value in menuitems.items %}
-    <!--<div class="border border-5 border-bottom-0 border-warning">-->
-    <div>
-        <div class="py-5 text-center m-1 rounded position-relative"
-            style="background: #ffffff url('{{ key.image.url }}') no-repeat center; background-size: cover;"
-            data-bs-toggle="collapse" data-bs-target="#collapsibleSection{{ forloop.counter0 }}" aria-expanded="false"
-            aria-controls="#collapsibleSection{{ forloop.counter0 }}">
-            <div class="pt-1">
-                <p class="text-center py-2 h6">
-                    <span class="text-bg-light p-3 rounded opacity-75 text-uppercase">{{ key }}</span><br>
-                </p>
-            </div>
-            <div
-                class="pb-1 d-flex justify-content-center align-items-center position-absolute bottom-0 start-50 translate-middle-x">
-                <span><i class="fa-solid fa-xl fa-angles-down text-light"></i></span>
-            </div>
-        </div>
-
-
-        <div id="collapsibleSection{{ forloop.counter0 }}" class="collapse">
-            {% for item in value %}
-            <div class="row mx-0 py-2">
-                <div class="col-auto">
-                    <p class="fw-semibold fst-italic text-uppercase">{{ item.name }}</p>
+            {% for key, value in menuitems.items %}
+            <div class="col-12 col-xl-6">
+                <div class="py-5 text-center my-2 rounded position-relative"
+                    style="background: #ffffff url('{{ key.image.url }}') no-repeat center; background-size: cover;"
+                    data-bs-toggle="collapse" data-bs-target="#collapsibleSection{{ forloop.counter0 }}"
+                    aria-expanded="false" aria-controls="#collapsibleSection{{ forloop.counter0 }}">
+                    <div class="pt-1">
+                        <p class="text-center py-2 h6">
+                            <span class="text-bg-light p-3 rounded opacity-75 text-uppercase">{{ key }}</span><br>
+                        </p>
+                    </div>
+                    <div
+                        class="pb-1 d-flex justify-content-center align-items-center position-absolute bottom-0 start-50 translate-middle-x">
+                        <span><i class="fa-solid fa-xl fa-angles-down text-light"></i></span>
+                    </div>
                 </div>
 
-                <div class="col display-dotted" style="border-color: blue;">
 
-                </div>
+                <div id="collapsibleSection{{ forloop.counter0 }}" class="collapse">
+                    {% for item in value %}
+                    <div class="row mx-0 py-2">
+                        <div class="col-auto">
+                            <p class="fw-semibold fst-italic text-uppercase">{{ item.name }}</p>
+                        </div>
 
-                <div class="col-auto">
-                    <p class="fw-semibold fst-italic text-uppercase">{{ item.price }}</p>
+                        <div class="col display-dotted" style="border-color: blue;">
+
+                        </div>
+
+                        <div class="col-auto">
+                            <p class="fw-semibold fst-italic text-uppercase">{{ item.price }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
             {% endfor %}
+
+            {% endif %}
         </div>
     </div>
-    {% endfor %}
-
-    {% endif %}
 
     <div class="container text-center">
         <div class="card">
