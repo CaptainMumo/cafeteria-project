@@ -143,6 +143,8 @@ def menu(request):
 
     context = {'menuitems': items_by_category}
 
+    context['title'] = "Menu | Strathmore University Cafeteria Services"
+
     return render(request=request, 
                 template_name="menuapp/menu.html", 
                 context=context)
