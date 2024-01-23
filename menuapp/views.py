@@ -7,6 +7,26 @@ from .models import DayMenu, TimeMenu, MenuItem, FoodCategory
 
 MAX_ITEMS_PER_CAROUSEL = 8
 
+class CarouselKey:
+    """ A helper class for creating carousel key when the menu items are grouped by category """
+    def __init__(self, name, image, split):
+        self.name = name
+        self.image = image
+        self.split = split
+
+    def __str__(self):
+        return self.name
+    
+    def __hash__(self):
+        # XOR (^) can be used to combine the hash values of the attributes
+        return hash(self.name) ^ hash(self.image) ^ hash(self.split)
+    
+    def __eq__(self, __value: object) -> bool:
+        return isinstance(__value, CarouselKey) and \
+               self.name == __value.name and \
+               self.image == __value.image and \
+               self.split == __value.split
+
 def index(request):
     """ Get the days menu """
     todays_menu = current_menus = menu_items = current_menu_label = current_menu_end_time = None
@@ -28,6 +48,7 @@ def index(request):
                 menu_items = current_menu.menu_items.all()
             else:
                 menu_items = menu_items.union(current_menu.menu_items.all(), all=False)
+            
             if current_menu_end_time is not None:
                 if current_menu.end_time < current_menu_end_time:
                     current_menu_end_time = current_menu.end_time
@@ -88,23 +109,40 @@ def index(request):
                 template_name="menuapp/index.html", 
                 context=context)
 
+def menu(request):
+    """ Get the days menu """
+    todays_menu = current_menus = menu_items = current_menu_label = current_menu_end_time = None
+    # Get the current date
+    today = date.today()
+    # Retrieve the corresponding menu
+    todays_menu = DayMenu.objects.filter(day=today).first()
 
-class CarouselKey:
-    """ A helper class for creating carousel key when the menu items are grouped by category """
-    def __init__(self, name, image, split):
-        self.name = name
-        self.image = image
-        self.split = split
+    # Get the submenu based on current time
+    current_time = datetime.now()
+    if todays_menu is not None:
+        current_menus = todays_menu.sub_menus.all().filter(start_time__lte=current_time).filter(end_time__gt=current_time).order_by('end_time')
+        
+    menu_items = None
 
-    def __str__(self):
-        return self.name
+    # Get the menu items
+    if current_menus is not None:
+        for current_menu in current_menus:
+            if menu_items is None:
+                menu_items = current_menu.menu_items.all()
+            else:
+                menu_items = menu_items.union(current_menu.menu_items.all(), all=False)
+
+    items_by_category = {}
+    if menu_items is not None:
+        for item in menu_items:
+            if item.food_category in items_by_category:
+                items_by_category[item.food_category].append(item)
+            else:
+                items_by_category[item.food_category] = [item]
     
-    def __hash__(self):
-        # XOR (^) can be used to combine the hash values of the attributes
-        return hash(self.name) ^ hash(self.image) ^ hash(self.split)
-    
-    def __eq__(self, __value: object) -> bool:
-        return isinstance(__value, CarouselKey) and \
-               self.name == __value.name and \
-               self.image == __value.image and \
-               self.split == __value.split
+
+    context = {'menuitems': items_by_category}
+
+    return render(request=request, 
+                template_name="menuapp/menu.html", 
+                context=context)
