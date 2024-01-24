@@ -70,7 +70,27 @@
             </div>
             {% endfor %}
 
+            {% else %}
+
+            <div class="col-12 col-xl-6">
+                <div class="py-5 text-center my-2 rounded"
+                    style="background: #ffffff url('{% static 'menuapp/images/strathmore_university_cafeteria_ugali_juice.png' %}') no-repeat center; 
+                            background-size: cover;">
+                    <div class="pt-3">
+                        <p class="text-bg-light opacity-75 h6 w-75 mx-auto rounded p-2">
+                            No Menu Available.<br>
+                            Open Hours<br>
+                            Mon-Fri: 07:00 - 19:00<br>
+                            Sat: 07:30 - 15:00<br>
+                            Closed on Sundays & Public Holidays
+                        </p>
+                    </div>
+                    
+                </div>
+            </div>
+
             {% endif %}
+
         </div>
     </div>
 
